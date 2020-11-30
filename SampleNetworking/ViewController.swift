@@ -21,7 +21,7 @@ class ViewController: UIViewController {
                 let value = try? response.map(to: PhotoModel.self)
                 print(value)
             case let .failure(error):
-                print(error)
+                print(error.errorDescription ?? "")
             }
         }
     }

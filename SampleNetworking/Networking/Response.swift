@@ -15,8 +15,7 @@ public final class Response: CustomDebugStringConvertible {
     public var description: String {
         return """
         Requested URL: \(urlRequest.url?.absoluteString ?? "nil"),
-        Status Code: \(httpURLResponse?.statusCode ?? -999),
-        Data Count: \(data?.count ?? -999)
+        Status Code: \(httpURLResponse?.statusCode ?? -999)
         """
     }
 
@@ -46,7 +45,10 @@ public final class Response: CustomDebugStringConvertible {
         to type: D.Type,
         decoder: JSONDecoder = JSONDecoder()
     ) throws -> D {
-        guard let data = data else { throw NetworkingError.noData(self) }
+        guard let data = data else {
+            print(NetworkingError.noData(self).errorDescription ?? "")
+            throw NetworkingError.noData(self)
+        }
         do {
             return try decoder.decode(type, from: data)
         } catch(let error) {
